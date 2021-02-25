@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <form id="reportForm" onsubmit="reportFormSubmit(this)">
+      <div class="form-group">
+        <div class="col-md-2">
+          <label for="name">Име на новата страница:</label>
+          <span class="help-block">(Опционално)</span>
+          <input type="text" class="form-control" id="name" name="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2">
+          <label for="documentType">Тип на документа:</label>
+          <select name="documentType" class="form-control" id="documentType">
+            <option value="newSheet">Нова страница (Sheet)</option>
+            <option value="newTable">Нова таблица (файл)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2">
+          <label for="date">Дата:</label><br>
+          <input type="date" class="form-control" id="date" name="date"/>
+        </div>    
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 bg-light text-right">
+            <input type="submit" class="btn btn-success" value="OK">
+            <input type="button" class="btn btn-default" value="Отказ" onclick="google.script.host.close()"/>
+          </div>
+        </div>
+      </div> 
+    </form>   
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+          event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);           
+       
+      function reportFormSubmit(formObject) {
+        google.script.run.addNewReport(formObject);
+        document.getElementById("reportForm").reset();
+        google.script.host.close();
+      }
+    </script>
+  </body>
+</html>
